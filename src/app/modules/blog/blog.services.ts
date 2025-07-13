@@ -44,7 +44,11 @@ const createblog = async (blogData: TBlog) => {
 const getAllblogs = async (res: Response) => {
   const blogs = await prismadb.blog.findMany({
     include: {
-      image: true,
+      image: {
+        select: {
+          url: true,
+        },
+      },
     },
   });
 

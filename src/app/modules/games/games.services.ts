@@ -44,7 +44,11 @@ const createGame = async (gameData: TGame) => {
 const getAllGames = async (res: Response) => {
   const games = await prismadb.game.findMany({
     include: {
-      image: true,
+      image: {
+        select:{
+          url: true,
+        }
+      },
     },
   });
 

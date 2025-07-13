@@ -50,7 +50,11 @@ const createevent = (eventData) => __awaiter(void 0, void 0, void 0, function* (
 const getAllevents = (res) => __awaiter(void 0, void 0, void 0, function* () {
     const events = yield prismaDb_1.default.event.findMany({
         include: {
-            image: true,
+            image: {
+                select: {
+                    url: true,
+                }
+            },
         },
     });
     if (!events || events.length === 0) {
@@ -99,14 +103,14 @@ const updateevent = (id, eventData, res) => __awaiter(void 0, void 0, void 0, fu
             message: "event not found with this id",
         });
     }
-    const existingImage = yield prismaDb_1.default.image.findFirst({
+    const existingImage = yield prismaDb_1.default.eventImage.findFirst({
         where: {
             eventId: id,
         },
     });
     let updatedevent;
     if (!image) {
-        yield prismaDb_1.default.image.deleteMany({
+        yield prismaDb_1.default.eventImage.deleteMany({
             where: {
                 eventId: id,
             },
@@ -130,7 +134,7 @@ const updateevent = (id, eventData, res) => __awaiter(void 0, void 0, void 0, fu
         });
         return { event: updatedevent };
     }
-    yield prismaDb_1.default.image.deleteMany({
+    yield prismaDb_1.default.eventImage.deleteMany({
         where: {
             eventId: id,
         },

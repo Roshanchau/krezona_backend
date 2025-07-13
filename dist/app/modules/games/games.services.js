@@ -50,7 +50,11 @@ const createGame = (gameData) => __awaiter(void 0, void 0, void 0, function* () 
 const getAllGames = (res) => __awaiter(void 0, void 0, void 0, function* () {
     const games = yield prismaDb_1.default.game.findMany({
         include: {
-            image: true,
+            image: {
+                select: {
+                    url: true,
+                }
+            },
         },
     });
     if (!games || games.length === 0) {
@@ -99,14 +103,14 @@ const updateGame = (id, gameData, res) => __awaiter(void 0, void 0, void 0, func
             message: "Game not found with this id",
         });
     }
-    const existingImage = yield prismaDb_1.default.image.findFirst({
+    const existingimage = yield prismaDb_1.default.gameImage.findFirst({
         where: {
             gameId: id,
         },
     });
     let updatedGame;
     if (!image) {
-        yield prismaDb_1.default.image.deleteMany({
+        yield prismaDb_1.default.gameImage.deleteMany({
             where: {
                 gameId: id,
             },
@@ -120,17 +124,17 @@ const updateGame = (id, gameData, res) => __awaiter(void 0, void 0, void 0, func
                 description,
                 image: {
                     create: {
-                        fileId: (existingImage === null || existingImage === void 0 ? void 0 : existingImage.fileId) || "",
-                        name: (existingImage === null || existingImage === void 0 ? void 0 : existingImage.name) || "",
-                        url: (existingImage === null || existingImage === void 0 ? void 0 : existingImage.url) || "",
-                        thumbnailUrl: (existingImage === null || existingImage === void 0 ? void 0 : existingImage.thumbnailUrl) || "",
+                        fileId: (existingimage === null || existingimage === void 0 ? void 0 : existingimage.fileId) || "",
+                        name: (existingimage === null || existingimage === void 0 ? void 0 : existingimage.name) || "",
+                        url: (existingimage === null || existingimage === void 0 ? void 0 : existingimage.url) || "",
+                        thumbnailUrl: (existingimage === null || existingimage === void 0 ? void 0 : existingimage.thumbnailUrl) || "",
                     },
                 },
             },
         });
         return { game: updatedGame };
     }
-    yield prismaDb_1.default.image.deleteMany({
+    yield prismaDb_1.default.gameImage.deleteMany({
         where: {
             gameId: id,
         },

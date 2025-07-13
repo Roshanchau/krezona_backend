@@ -50,7 +50,11 @@ const createblog = (blogData) => __awaiter(void 0, void 0, void 0, function* () 
 const getAllblogs = (res) => __awaiter(void 0, void 0, void 0, function* () {
     const blogs = yield prismaDb_1.default.blog.findMany({
         include: {
-            image: true,
+            image: {
+                select: {
+                    url: true,
+                },
+            },
         },
     });
     if (!blogs || blogs.length === 0) {
@@ -99,14 +103,14 @@ const updateblog = (id, blogData, res) => __awaiter(void 0, void 0, void 0, func
             message: "blog not found with this id",
         });
     }
-    const existingImage = yield prismaDb_1.default.image.findFirst({
+    const existingImage = yield prismaDb_1.default.blogImage.findFirst({
         where: {
             blogId: id,
         },
     });
     let updatedblog;
     if (!image) {
-        yield prismaDb_1.default.image.deleteMany({
+        yield prismaDb_1.default.blogImage.deleteMany({
             where: {
                 blogId: id,
             },
@@ -130,7 +134,7 @@ const updateblog = (id, blogData, res) => __awaiter(void 0, void 0, void 0, func
         });
         return { blog: updatedblog };
     }
-    yield prismaDb_1.default.image.deleteMany({
+    yield prismaDb_1.default.blogImage.deleteMany({
         where: {
             blogId: id,
         },

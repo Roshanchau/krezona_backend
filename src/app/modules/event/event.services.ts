@@ -44,7 +44,11 @@ const createevent = async (eventData: TEvent) => {
 const getAllevents = async (res: Response) => {
   const events = await prismadb.event.findMany({
     include: {
-      image: true,
+      image: {
+        select:{
+          url: true,
+        }
+      },
     },
   });
 
