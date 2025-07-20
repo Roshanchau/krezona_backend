@@ -107,10 +107,23 @@ const deleteGame = catchAsyncError(async (req: Request, res: Response) => {
     });
 });
 
+// delete all games
+const deleteAllGames = catchAsyncError(async (req: Request, res: Response) => {
+  const deletedGames = await gamesService.deleteAllGames(res);
+  
+  return sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "All games deleted successfully",
+    data: { games: deletedGames },
+  });
+});
+
 export const gamesController = {
   createGame,
   getAllGames,
   getGameById,
   updateGame,
   deleteGame,
+  deleteAllGames
 };

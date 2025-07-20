@@ -64,7 +64,6 @@ const getGameById = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 
 // update game 
 const updateGame = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    console.log("update", req.body);
     const { title, description } = req.body;
     let image = undefined;
     if (req.file) {
@@ -96,10 +95,21 @@ const deleteGame = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0
         data: { game: deletedGame },
     });
 }));
+// delete all games
+const deleteAllGames = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const deletedGames = yield games_services_1.gamesService.deleteAllGames(res);
+    return (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "All games deleted successfully",
+        data: { games: deletedGames },
+    });
+}));
 exports.gamesController = {
     createGame,
     getAllGames,
     getGameById,
     updateGame,
     deleteGame,
+    deleteAllGames
 };

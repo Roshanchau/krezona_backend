@@ -43,13 +43,9 @@ const createGame = async (gameData: TGame) => {
 // get all games
 const getAllGames = async (res: Response) => {
   const games = await prismadb.game.findMany({
-    include: {
-      image: {
-        select:{
-          url: true,
-        }
-      },
-    },
+    include:{
+      image:true
+    }
   });
 
   if (!games || games.length === 0) {
@@ -197,10 +193,27 @@ const deleteGame = async (id: string, res: Response) => {
     return game;
 };
 
+// delet all games
+const deleteAllGames = async (res: Response) => {
+  const games = await prismadb.game.deleteMany({});
+
+  if (!games) {
+    return sendResponse(res, {
+      statusCode: 404,
+      success: false,
+      message: "No games found to delete",
+    });
+  }
+
+  return games;
+};
+
+
 export const gamesService = {
   createGame,
   getAllGames,
   getGameById,
   updateGame,
   deleteGame,
+  deleteAllGames,
 };

@@ -50,12 +50,8 @@ const createGame = (gameData) => __awaiter(void 0, void 0, void 0, function* () 
 const getAllGames = (res) => __awaiter(void 0, void 0, void 0, function* () {
     const games = yield prismaDb_1.default.game.findMany({
         include: {
-            image: {
-                select: {
-                    url: true,
-                }
-            },
-        },
+            image: true
+        }
     });
     if (!games || games.length === 0) {
         return (0, sendResponse_1.default)(res, {
@@ -179,10 +175,23 @@ const deleteGame = (id, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
     return game;
 });
+// delet all games
+const deleteAllGames = (res) => __awaiter(void 0, void 0, void 0, function* () {
+    const games = yield prismaDb_1.default.game.deleteMany({});
+    if (!games) {
+        return (0, sendResponse_1.default)(res, {
+            statusCode: 404,
+            success: false,
+            message: "No games found to delete",
+        });
+    }
+    return games;
+});
 exports.gamesService = {
     createGame,
     getAllGames,
     getGameById,
     updateGame,
     deleteGame,
+    deleteAllGames,
 };

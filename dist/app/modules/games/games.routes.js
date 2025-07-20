@@ -13,5 +13,6 @@ router.post("/", multer_1.default, games_controller_1.gamesController.createGame
 router.get("/", games_controller_1.gamesController.getAllGames);
 router.get("/:id", games_controller_1.gamesController.getGameById);
 router.put("/:id", multer_1.default, games_controller_1.gamesController.updateGame);
+router.delete("/", games_controller_1.gamesController.deleteAllGames); // Route to delete all games
 router.delete("/:id", games_controller_1.gamesController.deleteGame);
 exports.gamesRoutes = router;
