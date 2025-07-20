@@ -64,6 +64,7 @@ const getGameById = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 
 // update game 
 const updateGame = (0, catchAsyncError_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    console.log("update", req.body);
     const { title, description } = req.body;
     let image = undefined;
     if (req.file) {

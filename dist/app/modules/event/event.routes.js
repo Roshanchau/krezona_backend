@@ -12,6 +12,6 @@ const router = (0, express_1.Router)();
 router.post("/", multer_1.default, event_controller_1.eventsController.createevent);
 router.get("/", event_controller_1.eventsController.getAllevents);
 router.get("/:id", event_controller_1.eventsController.geteventById);
-router.put("/:id", event_controller_1.eventsController.updateevent);
+router.put("/:id", multer_1.default, event_controller_1.eventsController.updateevent);
 router.delete("/:id", event_controller_1.eventsController.deleteevent);
 exports.eventsRoutes = router;

@@ -8,7 +8,7 @@ const router= Router();
 router.post("/" , singleUpload, eventsController.createevent);
 router.get("/", eventsController.getAllevents);
 router.get("/:id", eventsController.geteventById);
-router.put("/:id", eventsController.updateevent);
+router.put("/:id",singleUpload, eventsController.updateevent);
 router.delete("/:id", eventsController.deleteevent);
 
 export const eventsRoutes = router;
