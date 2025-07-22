@@ -84,9 +84,6 @@ const getGameById = (id, res) => __awaiter(void 0, void 0, void 0, function* () 
 // update game
 const updateGame = (id, gameData, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, description, image } = gameData;
-    if (!title || !description) {
-        throw new appError_1.default(400, "Title and description are required");
-    }
     const existingGame = yield prismaDb_1.default.game.findFirst({
         where: {
             id: id,

@@ -85,9 +85,6 @@ const getGameById = async (id: string, res: Response) => {
 const updateGame = async (id: string, gameData: TGame, res: Response) => {
   const { title, description, image } = gameData;
 
-  if (!title || !description) {
-    throw new AppError(400, "Title and description are required");
-  }
 
   const existingGame = await prismadb.game.findFirst({
     where: {
@@ -108,8 +105,9 @@ const updateGame = async (id: string, gameData: TGame, res: Response) => {
       gameId: id,
     },
   });
-
   let updatedGame;
+
+
   if (!image) {
     await prismadb.gameImage.deleteMany({
       where: {
